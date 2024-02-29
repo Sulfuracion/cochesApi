@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dam.apitrabel.DTO.cochesDTO;
 import com.dam.apitrabel.model.coches;
-import com.dam.apitrabel.services.TripService;
+import com.dam.apitrabel.services.CochesService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,53 +20,52 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
-@RequestMapping("/trip")
+@RequestMapping("/coches")
 public class cochesController {
     
     @Autowired
-    private TripService tripService;
+    private CochesService cochesService;
 
     
     @GetMapping()
     public List<coches> getAllTrips(){
-        return tripService.getAllTrips();
+        return cochesService.getAllCoches();
     }
 
     
-    @GetMapping("/{escala}")
-    public List<coches> geTripsByScale(@PathVariable("escala") int escala){
-        return tripService.getTripsByEscala(escala);
+    @GetMapping("/{marca}")
+    public List<coches> geTripsByScale(@PathVariable("marca") String marca){
+        return cochesService.getCochesByMarca(marca);
     }
 
-    @GetMapping("/search")
-    public List<coches> getTripsbyOrigin(
-        @RequestParam(name = "origen", required = false) String origen, 
-        @RequestParam(name = "destino", required = false) String destino) {
-
-        if (origen != null && destino != null) {
-            return tripService.getTripsByOrigenAndDestino(origen, destino);
-        }
-        else if (origen != null){
-            return tripService.getTripsByOrigin(origen);
-        }
-        else{
-            return tripService.getTripsByDestino(destino);
-        }
-    }
+   //@GetMapping("/search")
+   //public List<coches> getTripsbyOrigin(
+   //    @RequestParam(name = "origen", required = false) String marcar, 
+   //    @RequestParam(name = "destino", required = false) String modelo) {
+//
+   //    if (marcar != null && modelo != null) {
+   //        return cochesService.getCochesByMarcaModelo(marcar, modelo);
+   //    }
+   //    else if (marcar != null){
+   //        return cochesService.getCochesByModelo(marcar);
+   //    }
+   //    else{
+   //        return cochesService.getCochesByModelo(modelo);
+   //    }
+   //}
     
-    @PostMapping()
-    public void postTrips(@RequestBody cochesDTO viaje) {
-        
-        tripService.postTrips(viaje);
-    }
+   @PostMapping()
+   public void postTrips(@RequestBody cochesDTO viaje) {
+       cochesService.postTrips(viaje);
+   }
     
-    @DeleteMapping("/{nombre}")
-    public void deleteTrips(@PathVariable("nombre") String nombre){
-        tripService.deleteTrips(nombre);
+    @DeleteMapping("/{modelo}")
+    public void deleteCoches(@PathVariable("modelo") String nombre){
+        cochesService.deleteCoches(nombre);
     }
     
     @PutMapping("/precio/{id}")
-    public void putTrips(@PathVariable String id, @RequestBody cochesDTO tripDTO) {
-        tripService.updateTrip(id, tripDTO);
+    public void putCoches(@PathVariable String id, @RequestBody cochesDTO tripDTO) {
+        cochesService.updateCoche(id, tripDTO);
     }
 }

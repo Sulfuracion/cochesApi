@@ -1,0 +1,40 @@
+use marcasCoches
+
+db.createCollection("coches");
+
+db.coches.insertOne({
+    modelo: "ModeloEjemplo",
+    marca: "MarcaEjemplo",
+    potencia: 123,
+    color: "ColorEjemplo"
+});
+
+db.coches.insertMany([
+    {
+        modelo: "Clase A",
+        marca: "Mercedes",
+        potencia: 160,
+        color: "Negro"
+    },
+    {
+        modelo: "A3",
+        marca: "Audi",
+        potencia: 150,
+        color: "Blanco"
+    },
+    {
+        modelo: "720S",
+        marca: "McLaren",
+        potencia: 720,
+        color: "Naranja"
+    },
+    {
+        modelo: "M3",
+        marca: "BMW",
+        potencia: 480,
+        color: "Azul"
+    }
+]);
+
+// Verificar que los documentos se han insertado correctamente
+db.coches.find().pretty();

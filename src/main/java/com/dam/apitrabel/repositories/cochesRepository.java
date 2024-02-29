@@ -12,11 +12,12 @@ import java.util.Optional;
 public interface cochesRepository extends MongoRepository<coches, String>{
     
     public abstract ArrayList<coches> findAll();
-    public abstract ArrayList<coches> findByEscala(int escala);
-    public abstract ArrayList<coches> findByOrigen(String origen);
-    public abstract ArrayList<coches> findByOrigenAndDestino(String origen, String destino);
-    public abstract ArrayList<coches> findByDestino(String destino);
+    public abstract ArrayList<coches> findByPotencia(int potencia);
+    public abstract ArrayList<coches> findByMarca(String Marca);
+    public abstract ArrayList<coches> findByMarcaModelo(String Marca, String modelo);
+    public abstract ArrayList<coches> findByModelo(String modelo);
+
     public abstract coches save(coches viaje);
-    public abstract void deleteByNombre(String nombre);
+    public abstract void deleteByModelo(String modelo);
     public abstract Optional<coches> findById(String id);
 }
