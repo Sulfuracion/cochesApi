@@ -19,53 +19,58 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 
-@RestController
-@RequestMapping("/coches")
-public class cochesController {
+@RestController // Indica que esta clase es un controlador REST
+@RequestMapping("/coches") // Establece la ruta base para todos los endpoints de este controlador
+public class CochesController {
     
-    @Autowired
+    @Autowired // Inyecta automáticamente la instancia de CochesService cuando se crea una instancia de CochesController
     private CochesService cochesService;
 
-    
+    // Maneja las solicitudes GET a "/coches", devolviendo una lista de todos los coches disponibles
     @GetMapping()
-    public List<coches> getAllTrips(){
-        return cochesService.getAllCoches();
+    public List<Coches> getAllTrips(){
+        return cochesService.getAllCoches(); // Llama al servicio para obtener todos los coches
     }
 
-    
+    // Maneja las solicitudes GET a "/coches/{marca}", devolviendo una lista de coches filtrados por marca
     @GetMapping("/{marca}")
-    public List<coches> geTripsByScale(@PathVariable("marca") String marca){
-        return cochesService.getCochesByMarca(marca);
+    public List<Coches> geTripsByScale(@PathVariable("marca") String marca){
+        return cochesService.getCochesByMarca(marca); // Llama al servicio para obtener coches por marca
     }
 
-   //@GetMapping("/search")
-   //public List<coches> getTripsbyOrigin(
-   //    @RequestParam(name = "origen", required = false) String marcar, 
-   //    @RequestParam(name = "destino", required = false) String modelo) {
-//
-   //    if (marcar != null && modelo != null) {
-   //        return cochesService.getCochesByMarcaModelo(marcar, modelo);
-   //    }
-   //    else if (marcar != null){
-   //        return cochesService.getCochesByModelo(marcar);
-   //    }
-   //    else{
-   //        return cochesService.getCochesByModelo(modelo);
-   //    }
-   //}
-    
-   @PostMapping()
-   public void postTrips(@RequestBody cochesDTO viaje) {
-       cochesService.postTrips(viaje);
+    // Maneja las solicitudes GET a "/coches/search", permitiendo filtrar coches por marca y/o modelo
+    @GetMapping("/search")
+    public List<Coches> getTripsbyOrigin(
+       @RequestParam(name = "marca", required = false) String marca, 
+       @RequestParam(name = "modelo", required = false) String modelo) {
+       // Filtra coches por marca y modelo, solo por marca, o solo por modelo dependiendo de los parámetros proporcionados
+       if (marca != null && modelo != null) {
+           return cochesService.getCochesByMarcaModelo(marca, modelo);
+       }
+       else if (marca != null){
+           return cochesService.getCochesByMarca(marca);
+       }
+       else{
+           return cochesService.getCochesByModelo(modelo);
+       }
    }
     
-    @DeleteMapping("/{modelo}")
-    public void deleteCoches(@PathVariable("modelo") String nombre){
-        cochesService.deleteCoches(nombre);
+    // Maneja las solicitudes POST a "/coches", para crear un nuevo coche
+    @PostMapping()
+    public void postTrips(@RequestBody CochesDTO cochesDTO) {
+        cochesService.postTrips(cochesDTO); // Llama al servicio para añadir un nuevo coche
     }
     
+    // Maneja las solicitudes DELETE a "/coches/{modelo}", para eliminar coches por modelo
+    @DeleteMapping("/{modelo}")
+    public void deleteCoches(@PathVariable("modelo") String modelo){
+        cochesService.deleteCoches(modelo); // Llama al servicio para eliminar coches por modelo
+    }
+    
+    // Maneja las solicitudes PUT a "/coches/precio/{id}", para actualizar la información de un coche específico por su ID
     @PutMapping("/precio/{id}")
-    public void putCoches(@PathVariable String id, @RequestBody cochesDTO tripDTO) {
-        cochesService.updateCoche(id, tripDTO);
+    public void putCoches(@PathVariable String id, @RequestBody CochesDTO cochesDTO) {
+        cochesService.updateCoche(id, cochesDTO); // Llama al servicio para actualizar un coche por ID
     }
 }
+

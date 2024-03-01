@@ -4,8 +4,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
 
-@Data
-@Document(collection = "coches")
+@Data//genera métodos getter y setter, además de los métodos toString(), equals(), y hashCode()
+@Document(collection = "coches")//mapear documentos almacenados
 public class coches {
     
     private String id;
